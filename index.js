@@ -84,13 +84,13 @@ function drawPizzaSlice(
 
     ctx.beginPath();
 
-    // Центр → начало сектора
+    // Center → start of the slice
     ctx.moveTo(x, y);
 
-    // Линия к краю
+    // Line to the edge
     ctx.lineTo(startX, startY);
 
-    // Дуга
+    // Arc
     ctx.arc(
         x,
         y,
@@ -99,14 +99,14 @@ function drawPizzaSlice(
         endRadians
     );
 
-    // Возвращаемся в центр
+    // Return to the center
     ctx.lineTo(x, y);
 
-    // Заливаем сектор
+    // Fill the slice
     ctx.fillStyle = fillColor;
     ctx.fill();
 
-    // Рисуем границу
+    // Draw the border
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = 3;
     ctx.stroke();
@@ -123,7 +123,7 @@ function drawSliceText(
 ) {
     const sliceAngle = endAngle - startAngle;
 
-    // Не рисуем текст в маленьких секторах
+    // Do not draw text in small slices
     if (sliceAngle < 15) {
         return;
     }
@@ -136,10 +136,10 @@ function drawSliceText(
 
     ctx.save();
 
-    // Перемещаем начало координат в позицию текста
+    // Move the coordinate origin to the text position
     ctx.translate(textX, textY);
 
-    // Поворачиваем текст по направлению от центра к краю
+    // Rotate the text in the direction from the center to the edge
     ctx.rotate(radians);
 
     ctx.fillStyle = "black";
@@ -166,7 +166,7 @@ function spinWheel(
 
         let progress = Math.min(elapsed / duration, 1);
 
-        // Выбираем тип анимации
+        // Select the easing type
         switch (easing) {
             case "linear":
                 break;
@@ -238,7 +238,7 @@ spinButton.addEventListener("click", async () => {
     const seconds = parseFloat(durationInput.value) || 5;
     const duration = seconds * 1000;
 
-    // От 5 до 7 полных оборотов
+    // From 5 to 7 full rotations
     const rotations = randomNumber * 6 + 3 + seconds;
     console.log("🚀 ~ rotations:", rotations)
 
