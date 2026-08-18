@@ -145,7 +145,7 @@ function drawSliceText(
     // Rotate the text in the direction from the center to the edge
     ctx.rotate(radians);
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.font = "20px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -243,7 +243,7 @@ const spinButton = document.getElementById("spinButton");
 const durationInput = document.getElementById("durationInput");
 
 spinButton.addEventListener("click", async () => {
-    const randomNumber = Math.random(); // await getTrueRandom();
+    const randomNumber = await getTrueRandom() || Math.random();
 
     const seconds = parseFloat(durationInput.value) || 5;
     const duration = seconds * 1000;
