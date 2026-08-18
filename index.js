@@ -2,13 +2,16 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const data = [
-    { label: "Action", price: 400, color: "#FFD700" },
-    { label: "Youtube Video", price: 500, color: "#FF4500" },
-    { label: "Game", price: 1000, color: "#32CD32" },
-    { label: "Song", price: 5000, color: "#1E90FF" },
-    { label: "Entertainment", price: 4800, color: "#FF69B4" },
-    { label: "Other", price: 200, color: "#8A2BE2" },
+    { id: 1, label: "Action", price: 400, color: "#FFD700" },
+    { id: 2, label: "Youtube Video", price: 500, color: "#FF4500" },
+    { id: 3, label: "Game", price: 1000, color: "#32CD32" },
+    { id: 4, label: "Song", price: 5000, color: "#1E90FF" },
+    { id: 5, label: "Entertainment", price: 4800, color: "#FF69B4" },
+    { id: 6, label: "Other", price: 200, color: "#8A2BE2" },
 ];
+
+var theWinner;
+const winnerDisplay = document.getElementById("winnerDisplay");
 
 async function getTrueRandom() {
     const response = await fetch(
@@ -198,7 +201,6 @@ function spinWheel(
 }
 
 function drawWheel(rotation = 0, updatedData) {
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let currentAngle = rotation;
@@ -207,6 +209,14 @@ function drawWheel(rotation = 0, updatedData) {
 
         const startAngle = currentAngle;
         const endAngle = currentAngle + slice.angle;
+
+        const normalizedStartAngle = startAngle % 360;
+        const normalizedEndAngle = endAngle % 360;
+
+        if (normalizedStartAngle < 270 && normalizedEndAngle > 270) {
+            theWinner = slice;
+            winnerDisplay.textContent = `${slice.label}: $${slice.price}`;
+        }
 
         drawPizzaSlice(
             startAngle,
@@ -233,7 +243,7 @@ const spinButton = document.getElementById("spinButton");
 const durationInput = document.getElementById("durationInput");
 
 spinButton.addEventListener("click", async () => {
-    const randomNumber = await getTrueRandom();
+    const randomNumber = Math.random(); // await getTrueRandom();
 
     const seconds = parseFloat(durationInput.value) || 5;
     const duration = seconds * 1000;

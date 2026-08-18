@@ -7,9 +7,19 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <canvas id="canvas" width="800" height="800"></canvas>
-    <button id="spinButton">Spin</button>
-    <input type="number" id="durationInput" value="10" placeholder="Duration"/>
+    <div id="container">
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <div id="controls">
+            <span id="winnerLabel">
+                Winner: 
+                <div id="winnerDisplay">None</div>
+            </span>
+            <div id="spinControls">
+                <button id="spinButton">Spin</button>
+                <input type="number" id="durationInput" value="10" placeholder="Duration"/>
+            </div>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
