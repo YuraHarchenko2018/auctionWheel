@@ -2,12 +2,12 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const data = [
-    { label: "Пуки каки", price: 400, color: "#FFD700" },
-    { label: "Видео ютуб", price: 500, color: "#FF4500" },
-    { label: "Майнкрафт", price: 1000, color: "#32CD32" },
-    { label: "Артур пирожков", price: 5000, color: "#1E90FF" },
-    { label: "пиво и в танки", price: 4800, color: "#FF69B4" },
-    { label: "птица любви", price: 200, color: "#8A2BE2" },
+    { label: "Action", price: 400, color: "#FFD700" },
+    { label: "Youtube Video", price: 500, color: "#FF4500" },
+    { label: "Game", price: 1000, color: "#32CD32" },
+    { label: "Song", price: 5000, color: "#1E90FF" },
+    { label: "Entertainment", price: 4800, color: "#FF69B4" },
+    { label: "Other", price: 200, color: "#8A2BE2" },
 ];
 
 async function getTrueRandom() {
