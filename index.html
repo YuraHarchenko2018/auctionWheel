@@ -7,16 +7,28 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div id="container">
-        <canvas id="canvas" width="800" height="800"></canvas>
-        <div id="controls">
-            <span id="winnerLabel">
-                Winner: 
-                <div id="winnerDisplay">None</div>
-            </span>
-            <div id="spinControls">
-                <button id="spinButton">Spin</button>
-                <input type="number" id="durationInput" value="10" min="1" placeholder="Duration"/>
+    <div id="wrapper">
+        <div id="wheelContainer">
+            <canvas id="canvas" width="800" height="800"></canvas>
+            <div id="controls">
+                <span id="winnerLabel">
+                    Winner: 
+                    <div id="winnerDisplay">None</div>
+                </span>
+                <div id="spinControls">
+                    <button id="spinButton">Spin</button>
+                    <input type="number" id="durationInput" value="10" min="1" placeholder="Duration"/>
+                </div>
+            </div>
+        </div>
+        <div class="dataContainer">
+            <div class="addOptionPanel">
+                <input type="text" class="optionLabelInput" id="optionLabelInput" placeholder="Option Label"/>
+                <input type="number" class="optionPriceInput" id="optionPriceInput" placeholder="Option Price"/>
+                <button id="addOptionButton">Add Option</button>
+            </div>
+            <div class="optionsList">
+                
             </div>
         </div>
     </div>

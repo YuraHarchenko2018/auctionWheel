@@ -1,17 +1,43 @@
 const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-const data = [
-    { id: 1, label: "Action", price: 400, color: "#FFD700" },
-    { id: 2, label: "Youtube Video", price: 500, color: "#FF4500" },
-    { id: 3, label: "Game", price: 1000, color: "#32CD32" },
-    { id: 4, label: "Song", price: 5000, color: "#1E90FF" },
-    { id: 5, label: "Entertainment", price: 4800, color: "#FF69B4" },
-    { id: 6, label: "Other", price: 200, color: "#8A2BE2" },
-];
-
-var theWinner;
 const winnerDisplay = document.getElementById("winnerDisplay");
+
+const ctx = canvas.getContext("2d");
+var theWinner;
+
+const state = {
+    data: [
+        { id: 0, label: "Action", price: 400, color: "#FFD700" },
+        { id: 1, label: "Youtube Video", price: 500, color: "#FF4500" },
+        { id: 2, label: "Game", price: 1000, color: "#32CD32" },
+        { id: 3, label: "Song", price: 5000, color: "#1E90FF" },
+        { id: 4, label: "Entertainment", price: 4800, color: "#FF69B4" },
+        { id: 5, label: "Other", price: 200, color: "#8A2BE2" },
+    ],
+    onChangeCallbacks: [],
+    onChange: function(callback) {
+        this.onChangeCallbacks.push(callback);
+    },
+    getData: function() {
+        return this.data;
+    },
+    setData: function(newData) {
+        this.data = newData;
+        this.onChangeCallbacks.forEach(callback => callback(newData));
+    },
+    pushDataItem: function(newItem) {
+        this.data.push(newItem);
+        this.onChangeCallbacks.forEach(callback => callback(this.data));
+    },
+    removeData: function(id) {
+        this.data = this.data.filter(item => item.id !== id);
+        this.onChangeCallbacks.forEach(callback => callback(this.data));
+    }
+}
+
+state.onChange((data) => {
+    const updatedData = calculateSliceAngles(data);
+    drawWheel(0, updatedData);
+})
 
 async function getTrueRandom() {
     const response = await fetch(
@@ -215,7 +241,7 @@ function drawWheel(rotation = 0, updatedData) {
 
         if (normalizedStartAngle < 270 && normalizedEndAngle > 270) {
             theWinner = slice;
-            winnerDisplay.textContent = `${slice.label}: $${slice.price}`;
+            winnerDisplay.textContent = `${slice.label} ($${slice.price})`;
         }
 
         drawPizzaSlice(
@@ -236,13 +262,17 @@ function drawWheel(rotation = 0, updatedData) {
     drawCircle();
 }
 
-const updatedData = calculateSliceAngles(data);
+// Startup
+const updatedData = calculateSliceAngles(state.getData());
 drawWheel(0, updatedData);
 
+
+// Handle spin button click
 const spinButton = document.getElementById("spinButton");
 const durationInput = document.getElementById("durationInput");
 
 spinButton.addEventListener("click", async () => {
+    const updatedData = calculateSliceAngles(state.getData());
     const randomNumber = await getTrueRandom() || Math.random();
 
     const seconds = parseFloat(durationInput.value) || 5;
@@ -258,4 +288,26 @@ spinButton.addEventListener("click", async () => {
         "easeInOut",
         rotations
     );
+});
+
+
+// Handle adding new options
+const optionLabelInput = document.getElementById("optionLabelInput");
+const optionPriceInput = document.getElementById("optionPriceInput");
+const addOptionButton = document.getElementById("addOptionButton");
+
+addOptionButton.addEventListener("click", () => {
+    const label = optionLabelInput.value.trim();
+    const price = parseFloat(optionPriceInput.value);
+
+    if (label && !isNaN(price)) {
+        state.pushDataItem({
+            id: state.getData().length,
+            label,
+            price,
+            color: "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')
+        });
+        optionLabelInput.value = "";
+        optionPriceInput.value = "";
+    }
 });
