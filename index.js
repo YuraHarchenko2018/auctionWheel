@@ -5,14 +5,7 @@ const ctx = canvas.getContext("2d");
 var theWinner;
 
 const state = {
-    data: [
-        { id: 0, label: "Action", price: 400, color: "#FFD700" },
-        { id: 1, label: "Youtube Video", price: 500, color: "#FF4500" },
-        { id: 2, label: "Game", price: 1000, color: "#32CD32" },
-        { id: 3, label: "Song", price: 5000, color: "#1E90FF" },
-        { id: 4, label: "Entertainment", price: 4800, color: "#FF69B4" },
-        { id: 5, label: "Other", price: 200, color: "#8A2BE2" },
-    ],
+    data: [],
     onChangeCallbacks: [],
     onChange: function(callback) {
         this.onChangeCallbacks.push(callback);
@@ -34,9 +27,15 @@ const state = {
     }
 }
 
+// re-render the wheel whenever the state changes
 state.onChange((data) => {
     const updatedData = calculateSliceAngles(data);
     drawWheel(0, updatedData);
+})
+
+// save the state to localStorage whenever it changes
+state.onChange((data) => {
+    localStorage.setItem("wheelData", JSON.stringify(data));
 })
 
 async function getTrueRandom() {
@@ -263,8 +262,20 @@ function drawWheel(rotation = 0, updatedData) {
 }
 
 // Startup
-const updatedData = calculateSliceAngles(state.getData());
-drawWheel(0, updatedData);
+const savedData = localStorage.getItem("wheelData");
+
+if (savedData) {
+    state.setData(JSON.parse(savedData));
+} else {
+    state.setData([
+        { id: 0, label: "Action", price: 400, color: "#FFD700" },
+        { id: 1, label: "Youtube Video", price: 500, color: "#FF4500" },
+        { id: 2, label: "Game", price: 1000, color: "#32CD32" },
+        { id: 3, label: "Song", price: 5000, color: "#1E90FF" },
+        { id: 4, label: "Entertainment", price: 4800, color: "#FF69B4" },
+        { id: 5, label: "Other", price: 200, color: "#8A2BE2" },
+    ]);
+}
 
 
 // Handle spin button click
