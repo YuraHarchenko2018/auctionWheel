@@ -176,7 +176,9 @@ function drawSliceText(
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    ctx.fillText(text, 0, 0);
+    const formattedText = text.length > 25 ? text.slice(0, 22) + "..." : text;
+
+    ctx.fillText(formattedText, 0, 0);
 
     ctx.restore();
 }
@@ -241,7 +243,8 @@ function drawWheel(rotation = 0, updatedData) {
 
         if (normalizedStartAngle < 270 && normalizedEndAngle > 270) {
             theWinner = slice;
-            winnerDisplay.textContent = `${slice.label} ($${slice.price})`;
+            const formattedText = slice.label.length > 70 ? slice.label.slice(0, 67) + "..." : slice.label;
+            winnerDisplay.textContent = `${formattedText} ($${slice.price})`;
         }
 
         drawPizzaSlice(
@@ -316,9 +319,10 @@ state.onChange((data) => {
     optionsList.innerHTML = "";
     data.forEach((option) => {
         const optionElement = document.createElement("div");
+        const formattedText = option.label.length > 20 ? option.label.slice(0, 17) + "..." : option.label;
         optionElement.className = "optionItem";
         optionElement.innerHTML = `
-            <span class="optionLabel">${option.label}</span>
+            <span class="optionLabel">${formattedText}</span>
             <span class="optionPrice">$${option.price.toFixed(2)}</span>
             <button class="removeOptionButton" data-id="${option.id}">Remove</button>
         `;
