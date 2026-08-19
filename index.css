@@ -51,11 +51,14 @@ body {
     color: #0b0b0c;
     cursor: pointer;
 }
-#durationInput {
+.durationInput {
     width: 60px;
     padding: 5px;
     border-radius: 5px;
-    border: none;
+    border: 1px solid #f0f1f266;
+    background: #1f1f22;
+    outline: none;
+    color: white;
 }
 
 .dataContainer {
