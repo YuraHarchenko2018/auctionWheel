@@ -8,12 +8,12 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
+    gap: 75px;
 }
 #wheelContainer {
     position: relative;
     width: 800px;
     height: 800px;
-    margin: 0 auto;
 }
 #canvas {
     background: #1f1f22;
@@ -62,6 +62,11 @@ body {
     display: flex;
     flex-direction: column;
     font-family: Arial, sans-serif;
+    background: #1f1f22;
+    padding: 5px 20px;
+    border-radius: 15px;
+    height: fit-content;
+    padding-bottom: 14px;
 }
 
 .addOptionPanel {
@@ -69,20 +74,27 @@ body {
     flex-direction: row;
     gap: 10px;
     margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .optionLabelInput {
     padding: 5px;
     border-radius: 5px;
-    border: none;
     width: 150px;
+    border: 1px solid #f0f1f266;
+    background: #1f1f22;
+    outline: none;
+    color: white;
 }
 
 .optionPriceInput {
     padding: 5px;
     border-radius: 5px;
-    border: none;
     width: 100px;
+    border: 1px solid #f0f1f266;
+    background: #1f1f22;
+    outline: none;
+    color: white;
 }
 
 .addOptionButton {
