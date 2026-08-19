@@ -15,6 +15,7 @@ const state = {
     },
     setData: function(newData) {
         this.data = newData;
+        console.log(this.onChangeCallbacks)
         this.onChangeCallbacks.forEach(callback => callback(newData));
     },
     pushDataItem: function(newItem) {
@@ -261,22 +262,6 @@ function drawWheel(rotation = 0, updatedData) {
     drawCircle();
 }
 
-// Startup
-const savedData = localStorage.getItem("wheelData");
-
-if (savedData) {
-    state.setData(JSON.parse(savedData));
-} else {
-    state.setData([
-        { id: 0, label: "Action", price: 400, color: "#FFD700" },
-        { id: 1, label: "Youtube Video", price: 500, color: "#FF4500" },
-        { id: 2, label: "Game", price: 1000, color: "#32CD32" },
-        { id: 3, label: "Song", price: 5000, color: "#1E90FF" },
-        { id: 4, label: "Entertainment", price: 4800, color: "#FF69B4" },
-        { id: 5, label: "Other", price: 200, color: "#8A2BE2" },
-    ]);
-}
-
 
 // Handle spin button click
 const spinButton = document.getElementById("spinButton");
@@ -322,3 +307,46 @@ addOptionButton.addEventListener("click", () => {
         optionPriceInput.value = "";
     }
 });
+
+
+// Render option list
+const optionsList = document.getElementById("optionsList");
+
+state.onChange((data) => {
+    optionsList.innerHTML = "";
+    data.forEach((option) => {
+        const optionElement = document.createElement("div");
+        optionElement.className = "optionItem";
+        optionElement.innerHTML = `
+            <span class="optionLabel">${option.label}</span>
+            <span class="optionPrice">$${option.price.toFixed(2)}</span>
+            <button class="removeOptionButton" data-id="${option.id}">Remove</button>
+        `;
+        optionsList.appendChild(optionElement);
+    });
+});
+
+// Handle removing options
+document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("removeOptionButton")) {
+        const id = parseInt(event.target.getAttribute("data-id"));
+        state.removeData(id);
+    }
+});
+
+
+// Startup
+const savedData = localStorage.getItem("wheelData");
+
+if (savedData) {
+    state.setData(JSON.parse(savedData));
+} else {
+    state.setData([
+        { id: 0, label: "Action", price: 400, color: "#FFD700" },
+        { id: 1, label: "Youtube Video", price: 500, color: "#FF4500" },
+        { id: 2, label: "Game", price: 1000, color: "#32CD32" },
+        { id: 3, label: "Song", price: 5000, color: "#1E90FF" },
+        { id: 4, label: "Entertainment", price: 4800, color: "#FF69B4" },
+        { id: 5, label: "Other", price: 200, color: "#8A2BE2" },
+    ]);
+}
